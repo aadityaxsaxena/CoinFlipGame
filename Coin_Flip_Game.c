@@ -1,66 +1,75 @@
-//CoinFlipGame with Estimating value of PI using coin flips.
+//Presenting you my project for Programming In C course titled "Coin Flip Game!". 
+//Additionally you can also estimate the value of PI using this Coin Flip Game.
+/* This Is Menu Driven Program where for The Coin Flip Game I have used rand() that generates a random number 
+which on mudulo will either give 0 or 1 and if that matches with user input the user will win and the score will be updated */
+/* Then for estimating the value of PI I studied the Monte Carlo Method and applied the same to my code
+This calculates an approximate value of Pi using Monte Carlo Method:
+1. Ask the user how many random points to use.
+2. Generate that many points with random x and y values between 0 and 1.
+3. Check each point to see if it falls inside the unit circle (x^2 + y^2 <= 1).
+4. Use the formula Pi ≈ 4 * (number of points inside circle) / (total points) to estimate Pi.
+5. Print the estimated value of Pi to the screen.*/
+// Together all these features combines to create a completely fun and crazy program.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 int wins = 0;
 int totalGames = 0;
 void coinFlipGame() {
-    int guess, flip;
-    printf("\n--- Coin Flip Game ---\n");
-    printf("Guess the coin: 0 = Heads, 1 = Tails: ");
-    scanf("%d", &guess);
-    if (guess != 0 && guess != 1) {
-        printf("Invalid choice! Choose 0 or 1.\n");
+    int choice, flip;
+    printf("\n---------------Welcome To Coin Flip Game---------------\n");
+    printf("Choice Coin Side : 0 = Heads, 1 = Tails: ");
+    scanf("%d", &choice);
+    if (choice != 0 && choice != 1) {
+        printf("Invalid choice! Choose 0 or 1\n");
         return;
     }
     flip = rand() % 2;
-    printf("Coin flipped: %s\n", flip == 0 ? "Heads" : "Tails");
-    if (guess == flip) {
-        printf("You guessed it right!\n");
+    printf("Coin Flipped: %s\n", flip == 0 ? "Heads" : "Tails");
+    if (choice == flip) {
+        printf("You Win The Round\n");
         wins++;
     } else {
-        printf("Wrong guess. Try again!\n");
+        printf("You Lost The Round. Retry\n");
     }
     totalGames++;
 }
 void estimatePi() {
-    int points;
-    int insideCircle = 0;
+    int p;
+    int InCircle = 0;
     double x, y;
-    printf("\n--- Estimate Pi ---\n");
+    printf("\n---------------Estimate Pi---------------\n");
     printf("Enter number of random points: ");
-    scanf("%d", &points);
-    if (points <= 0) {
-        printf("Number of points must be positive!\n");
+    scanf("%d", &p);
+    if (p <= 0) {
+        printf("Number of points must be positive\n");
         return;
     }
-    for (int i = 0; i < points; i++) {
+    for (int i = 0; i < p; i++) {
         x = (double)rand() / RAND_MAX;
         y = (double)rand() / RAND_MAX;
         if (x * x + y * y <= 1) {
-            insideCircle++;
+            InCircle++;
         }
     }
-    double pi = 4.0 * insideCircle / points;
-    printf("Estimated Pi using %d points: %.6lf\n", points, pi);
+    double pi = 4.0 * InCircle / p;
+    printf("Estimated Pi using %d points: %.6lf\n", p, pi);
 }
 void showScorecard() {
-    printf("\n--- Scorecard ---\n");
-    printf("Total games played: %d\n", totalGames);
-    printf("Total correct guesses: %d\n", wins);
-    if (totalGames > 0) {
-        double percent = (double)wins / totalGames * 100;
-        printf("Winning percentage: %.2lf%%\n", percent);
-    }
+    int lost = totalGames - wins;
+    printf("\n---------------Game Scorecard---------------\n");
+    printf("Total Games Played: %d\n", totalGames);
+    printf("Total Wins: %d\n", wins);
+    printf("Total Losses: %d\n", lost);
 }
 int main() {
     int choice;
     srand(time(0));
     do {
-        printf("\n=== MENU ===\n");
+        printf("\n===============MENU===============\n");
         printf("1. Play Coin Flip Game\n");
-        printf("2. Estimate Pi using Monte Carlo\n");
-        printf("3. Show Scorecard\n");
+        printf("2. Estimate Value Of PI Using Coin Flips\n");
+        printf("3. Show Game Scorecard\n");
         printf("4. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -75,10 +84,10 @@ int main() {
                 showScorecard();
                 break;
             case 4:
-                printf("Exiting program. Bye!\n");
+                printf("Exited\n");
                 break;
             default:
-                printf("Invalid choice! Try again.\n");
+                printf("Invalid Choice\n");
         }
     } while (choice != 4);
     return 0;
